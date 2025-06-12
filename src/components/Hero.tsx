@@ -6,7 +6,7 @@ const Hero = () => {
     <section className="min-h-screen flex flex-col justify-center items-center relative px-4">
       <div className="text-center max-w-4xl mx-auto">
         <h1 className="text-6xl md:text-8xl font-light tracking-wider mb-6 text-foreground opacity-0 animate-fade-in">
-          ELENA NOIR
+         CHARLOTTE HÖGBERG
         </h1>
         <p className="text-xl md:text-2xl font-light tracking-widest text-muted-foreground mb-8 opacity-0 animate-fade-in [animation-delay:0.3s]">
           FASHION DESIGNER

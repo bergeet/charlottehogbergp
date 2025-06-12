@@ -4,6 +4,8 @@ import Hero from "@/components/Hero";
 import Portfolio from "@/components/Portfolio";
 import About from "@/components/About";
 import Contact from "@/components/Contact";
+import AdminPanel from "@/components/AdminPanel";
+import ImageUpload from "@/components/ImageUpload";
 
 const Index = () => {
   return (
@@ -14,7 +16,6 @@ const Index = () => {
         <div id="hero">
           <Hero />
         </div>
-        
         <Portfolio />
         <About />
         <Contact />

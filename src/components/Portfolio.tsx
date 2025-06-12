@@ -25,7 +25,7 @@ const Portfolio = () => {
         .from('portfolio_images')
         .select('*')
         .order('display_order', { ascending: true });
-
+      console.log(data)
       if (error) throw error;
       setImages(data || []);
     } catch (error) {

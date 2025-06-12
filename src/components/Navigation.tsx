@@ -29,7 +29,7 @@ const Navigation = () => {
             className="text-xl font-light tracking-widest cursor-pointer"
             onClick={() => scrollToSection('hero')}
           >
-            EN
+            CH
           </div>
           
           <div className="flex space-x-8">
