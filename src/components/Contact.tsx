@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -12,16 +13,54 @@ const Contact = () => {
     subject: '',
     message: ''
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // For now, we'll show a toast. Later this can be connected to email service
-    toast({
-      title: "Message sent!",
-      description: "Thank you for reaching out. I'll get back to you soon.",
-    });
-    setFormData({ name: '', email: '', subject: '', message: '' });
+    setIsSubmitting(true);
+
+    try {
+      // Save to database
+      const { error: dbError } = await supabase
+        .from('contact_submissions')
+        .insert({
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject,
+          message: formData.message
+        });
+
+      if (dbError) throw dbError;
+
+      // Try to send email via edge function (will fail gracefully if not set up)
+      try {
+        const { error: emailError } = await supabase.functions.invoke('send-contact-email', {
+          body: formData
+        });
+        
+        if (emailError) {
+          console.log('Email sending not configured yet:', emailError);
+        }
+      } catch (emailError) {
+        console.log('Email function not available yet');
+      }
+
+      toast({
+        title: "Message sent!",
+        description: "Thank you for reaching out. Your message has been saved and I'll get back to you soon.",
+      });
+
+      setFormData({ name: '', email: '', subject: '', message: '' });
+    } catch (error: any) {
+      toast({
+        title: "Error sending message",
+        description: error.message || "Please try again later.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -111,9 +150,10 @@ const Contact = () => {
             
             <Button 
               type="submit" 
+              disabled={isSubmitting}
               className="w-full bg-foreground text-background hover:bg-foreground/90 tracking-wider py-6"
             >
-              SEND MESSAGE
+              {isSubmitting ? "SENDING..." : "SEND MESSAGE"}
             </Button>
           </form>
         </div>
