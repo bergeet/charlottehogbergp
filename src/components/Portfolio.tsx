@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { supabase } from "@/integrations/supabase/client";
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
 
@@ -19,25 +18,14 @@ const Portfolio = () => {
   const [images, setImages] = useState<PortfolioImage[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const fetchImages = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('portfolio_images')
-        .select('*')
-        .order('display_order', { ascending: true });
-      console.log(data)
-      if (error) throw error;
-      setImages(data || []);
-    } catch (error) {
-      console.error('Error fetching images:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  // const fetchImages = async () => {
+  //   try {
 
-  useEffect(() => {
-    fetchImages();
-  }, []);
+  // };
+
+  // useEffect(() => {
+  //   fetchImages();
+  // }, []);
 
   const openLightbox = (imageIndex: number) => {
     setIndex(imageIndex);
@@ -50,79 +38,87 @@ const Portfolio = () => {
       id: "fallback-1",
       title: "Ethereal Collection",
       description: "Sample design",
-      image_url: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=800&h=1200&fit=crop",
+      image_url:
+        "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=800&h=1200&fit=crop",
       alt_text: "Fashion Design 1",
       collection: "Sample",
-      display_order: 1
+      display_order: 1,
     },
     {
       id: "fallback-2",
       title: "Urban Minimalism",
       description: "Sample design",
-      image_url: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&h=1200&fit=crop",
+      image_url:
+        "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&h=1200&fit=crop",
       alt_text: "Fashion Design 2",
       collection: "Sample",
-      display_order: 2
+      display_order: 2,
     },
     {
       id: "fallback-3",
       title: "Contemporary Edge",
       description: "Sample design",
-      image_url: "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?w=800&h=1200&fit=crop",
+      image_url:
+        "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?w=800&h=1200&fit=crop",
       alt_text: "Fashion Design 3",
       collection: "Sample",
-      display_order: 3
+      display_order: 3,
     },
     {
       id: "fallback-4",
       title: "Structured Lines",
       description: "Sample design",
-      image_url: "https://images.unsplash.com/photo-1527576539890-dfa815648363?w=800&h=1200&fit=crop",
+      image_url:
+        "https://images.unsplash.com/photo-1527576539890-dfa815648363?w=800&h=1200&fit=crop",
       alt_text: "Fashion Design 4",
       collection: "Sample",
-      display_order: 4
+      display_order: 4,
     },
     {
       id: "fallback-5",
       title: "Avant-garde Series",
       description: "Sample design",
-      image_url: "https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=800&h=1200&fit=crop",
+      image_url:
+        "https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=800&h=1200&fit=crop",
       alt_text: "Fashion Design 5",
       collection: "Sample",
-      display_order: 5
+      display_order: 5,
     },
     {
       id: "fallback-6",
       title: "Timeless Elegance",
       description: "Sample design",
-      image_url: "https://images.unsplash.com/photo-1518005020951-eccb494ad742?w=800&h=1200&fit=crop",
+      image_url:
+        "https://images.unsplash.com/photo-1518005020951-eccb494ad742?w=800&h=1200&fit=crop",
       alt_text: "Fashion Design 6",
       collection: "Sample",
-      display_order: 6
+      display_order: 6,
     },
     {
       id: "fallback-7",
       title: "Fluid Forms",
       description: "Sample design",
-      image_url: "https://images.unsplash.com/photo-1486718448742-163732cd1544?w=800&h=1200&fit=crop",
+      image_url:
+        "https://images.unsplash.com/photo-1486718448742-163732cd1544?w=800&h=1200&fit=crop",
       alt_text: "Fashion Design 7",
       collection: "Sample",
-      display_order: 7
+      display_order: 7,
     },
     {
       id: "fallback-8",
       title: "Modern Classics",
       description: "Sample design",
-      image_url: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=800&h=1200&fit=crop",
+      image_url:
+        "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=800&h=1200&fit=crop",
       alt_text: "Fashion Design 8",
       collection: "Sample",
-      display_order: 8
-    }
+      display_order: 8,
+    },
   ];
 
-  const displayImages = images.length > 0 ? images : fallbackImages;
+  const displayImages = fallbackImages;
 
-  if (loading) {
+  if (!loading) {
     return (
       <section id="portfolio" className="py-20 px-4">
         <div className="max-w-7xl mx-auto text-center">
@@ -176,7 +172,10 @@ const Portfolio = () => {
           open={open}
           close={() => setOpen(false)}
           index={index}
-          slides={displayImages.map(img => ({ src: img.image_url, alt: img.alt_text }))}
+          slides={displayImages.map((img) => ({
+            src: img.image_url,
+            alt: img.alt_text,
+          }))}
           styles={{
             container: { backgroundColor: "rgba(0, 0, 0, 0.95)" },
           }}
