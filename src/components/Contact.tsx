@@ -6,12 +6,12 @@ import { useToast } from "@/hooks/use-toast";
 import emailjs from "@emailjs/browser";
 
 const EMAILJS_SERVICE_ID =
-  import.meta.env.local.VITE_EMAILJS_SERVICE_ID || "YOUR_SERVICE_ID";
+  import.meta.env.VITE_EMAILJS_SERVICE_ID || "YOUR_SERVICE_ID";
 const EMAILJS_TEMPLATE_CONTACT_ID =
-  import.meta.env.local.VITE_EMAILJS_TEMPLATE_CONTACT_ID ||
+  import.meta.env.VITE_EMAILJS_TEMPLATE_CONTACT_ID ||
   "YOUR_TEMPLATE_CONTACT_ID";
 const EMAILJS_PUBLIC_KEY =
-  import.meta.env.local.VITE_EMAILJS_PUBLIC_KEY || "YOUR_PUBLIC_KEY";
+  import.meta.env.VITE_EMAILJS_PUBLIC_KEY || "YOUR_PUBLIC_KEY";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
